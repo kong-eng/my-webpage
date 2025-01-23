@@ -41,7 +41,7 @@
             font-weight: bold;
         }
 
-        input[type="number"], input[type="text"], .result {
+        input[type="number"], .result {
             width: 100%;
             padding: 10px;
             margin: 5px 0 15px 0;
@@ -81,7 +81,7 @@
         </div>
         <div class="input-group">
             <label for="totalPacks">总包数：</label>
-            <input type="number" id="totalPacks" value="100">
+            <input type="number" id="totalPacks" value="326">
         </div>
         <div class="result" id="result"></div>
     </div>
@@ -92,14 +92,17 @@
             const packsPerBox = parseInt(document.getElementById('packsPerBox').value);
             const totalPacks = parseInt(document.getElementById('totalPacks').value);
 
+            // 输入有效性检查
             if (isNaN(packsPerBox) || isNaN(totalPacks) || packsPerBox <= 0 || totalPacks <= 0) {
                 document.getElementById('result').innerHTML = "请输入有效的数字！";
                 return;
             }
 
-            const boxCount = Math.ceil(totalPacks / packsPerBox);  // 计算箱数（向上取整）
+            // 计算完整的箱数和剩余包数
+            const boxCount = Math.floor(totalPacks / packsPerBox);  // 完整箱数
             const remainingPacks = totalPacks % packsPerBox; // 剩余包数
 
+            // 输出结果
             document.getElementById('result').innerHTML = `
                 需要的箱数：${boxCount} 箱<br>
                 剩余包数：${remainingPacks} 包
