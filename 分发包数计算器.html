@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分发包数计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        input[type="number"] {
+            padding: 10px;
+            margin: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            width: 80%;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 80%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        p {
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>分发包数计算器</h2>
+        <label for="total">总包数:</label>
+        <input type="number" id="total" value="100" placeholder="请输入总包数">
+        <br><br>
+        <label for="perBox">每箱包数:</label>
+        <input type="number" id="perBox" value="8" placeholder="请输入每箱包数">
+        <br><br>
+        <button onclick="calculate()">计算</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function calculate() {
+            var total = document.getElementById("total").value;
+            var perBox = document.getElementById("perBox").value;
+
+            var boxes = Math.floor(total / perBox);
+            var remainder = total % perBox;
+
+            document.getElementById("result").innerHTML = boxes + " 箱 " + remainder + " 包";
+        }
+    </script>
+</body>
+</html>
