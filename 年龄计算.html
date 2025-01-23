@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>年龄计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="date"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>年龄计算器</h1>
+    <div class="container">
+        <div class="input-group">
+            <label for="birthday1">选择第一个人的生日:</label>
+            <input type="date" id="birthday1" value="2000-04-16">
+        </div>
+        <div class="input-group">
+            <label for="birthday2">选择第二个人的生日:</label>
+            <input type="date" id="birthday2" value="1997-12-01">
+        </div>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        // 计算时间差的函数
+        function calculateTimeDifference(birthDate) {
+            const currentDate = new Date();
+
+            let ageYears = currentDate.getFullYear() - birthDate.getFullYear();
+            let ageMonths = currentDate.getMonth() - birthDate.getMonth();
+            let ageDays = currentDate.getDate() - birthDate.getDate();
+            let ageHours = currentDate.getHours() - birthDate.getHours();
+            let ageMinutes = currentDate.getMinutes() - birthDate.getMinutes();
+            let ageSeconds = currentDate.getSeconds() - birthDate.getSeconds();
+
+            // 处理负数情况
+            if (ageDays < 0) {
+                ageMonths--;
+                ageDays += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+            }
+
+            if (ageMonths < 0) {
+                ageYears--;
+                ageMonths += 12;
+            }
+
+            if (ageHours < 0) {
+                ageDays--;
+                ageHours += 24;
+            }
+
+            if (ageMinutes < 0) {
+                ageHours--;
+                ageMinutes += 60;
+            }
+
+            if (ageSeconds < 0) {
+                ageMinutes--;
+                ageSeconds += 60;
+            }
+
+            const totalDays = Math.floor((currentDate - birthDate) / (1000 * 60 * 60 * 24));
+            const totalHours = totalDays * 24 + currentDate.getHours();
+            const totalMinutes = totalHours * 60 + currentDate.getMinutes();
+            const totalSeconds = totalMinutes * 60 + currentDate.getSeconds();
+
+            const totalYears = totalDays / 365.25; // 折合为年
+
+            return {
+                years: ageYears,
+                months: ageMonths,
+                days: ageDays,
+                hours: ageHours,
+                minutes: ageMinutes,
+                seconds: ageSeconds,
+                totalDays: totalDays,
+                totalHours: totalHours,
+                totalMinutes: totalMinutes,
+                totalSeconds: totalSeconds,
+                totalYears: totalYears.toFixed(2) // 折合为年，保留两位小数
+            };
+        }
+
+        // 更新页面显示年龄
+        function updateAge() {
+            const birthDate1 = new Date(document.getElementById('birthday1').value);
+            const birthDate2 = new Date(document.getElementById('birthday2').value);
+
+            const person1 = calculateTimeDifference(birthDate1);
+            const person2 = calculateTimeDifference(birthDate2);
+
+            document.getElementById('result').innerHTML = `
+                <strong>第一个人的年龄：</strong><br>
+                ${person1.years} 年，${person1.months} 个月，${person1.days} 天，${person1.hours} 小时，${person1.minutes} 分钟，${person1.seconds} 秒<br>
+                <strong>折合：${person1.totalYears} 年，${person1.totalMinutes} 分钟，${person1.totalSeconds} 秒</strong><br><br>
+                
+                <strong>第二个人的年龄：</strong><br>
+                ${person2.years} 年，${person2.months} 个月，${person2.days} 天，${person2.hours} 小时，${person2.minutes} 分钟，${person2.seconds} 秒<br>
+                <strong>折合：${person2.totalYears} 年，${person2.totalMinutes} 分钟，${person2.totalSeconds} 秒</strong><br><br>
+                
+                <strong>总时间差：</strong><br>
+                ${Math.abs(person1.years - person2.years)} 年，${Math.abs(person1.months - person2.months)} 个月，${Math.abs(person1.days - person2.days)} 天，${Math.abs(person1.hours - person2.hours)} 小时，${Math.abs(person1.minutes - person2.minutes)} 分钟，${Math.abs(person1.seconds - person2.seconds)} 秒
+            `;
+        }
+
+        // 页面加载时立即计算
+        window.onload = updateAge;
+
+        // 监听日期输入变化
+        document.getElementById('birthday1').addEventListener('change', updateAge);
+        document.getElementById('birthday2').addEventListener('change', updateAge);
+    </script>
+
+</body>
+</html>
