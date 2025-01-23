@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班次显示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .time {
+            font-size: 1.5em;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .shift {
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>当前班次</h1>
+    <div class="container">
+        <div class="time" id="currentTime"></div>
+        <div class="shift" id="currentShift"></div>
+    </div>
+
+    <script>
+        // 获取当前时间并计算当前班次
+        function updateShift() {
+            const now = new Date();
+            const hours = now.getHours();  // 获取当前小时
+            const minutes = now.getMinutes();  // 获取当前分钟
+
+            // 显示当前时间
+            const currentTime = now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+            document.getElementById('currentTime').textContent = `当前时间: ${currentTime}`;
+
+            // 设定班次开始的时间点
+            const startTime = new Date("2025-01-23T08:00:00");  // 设置2025年1月23日8:00为甲班开始时间
+
+            // 计算距离开始时间的差异，转换为小时数
+            const diffHours = (now - startTime) / (1000 * 60 * 60);
+
+            // 判断当前班次
+            let shiftName = '';
+            const shiftIndex = Math.floor(diffHours / 12) % 3;  // 每班次12小时，循环3个班
+
+            switch (shiftIndex) {
+                case 0:
+                    shiftName = '甲班';
+                    break;
+                case 1:
+                    shiftName = '乙班';
+                    break;
+                case 2:
+                    shiftName = '丙班';
+                    break;
+            }
+
+            // 更新班次信息
+            document.getElementById('currentShift').textContent = `当前班次: ${shiftName}`;
+        }
+
+        // 每分钟更新一次
+        setInterval(updateShift, 60000);
+
+        // 初始化页面
+        updateShift();
+    </script>
+
+</body>
+</html>
