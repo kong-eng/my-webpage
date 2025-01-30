@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>挪车服务</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .phone-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .call-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .call-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-number">
+        挪车电话：<span id="phone">123-4567-890</span>
+    </div>
+
+    <button class="call-button" onclick="makeCall()">拨打挪车电话</button>
+
+    <script>
+        function makeCall() {
+            var phoneNumber = document.getElementById('phone').innerText;
+            window.location.href = 'tel:' + phoneNumber;
+        }
+    </script>
+
+</body>
+</html>
