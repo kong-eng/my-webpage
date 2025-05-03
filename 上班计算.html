@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>是否上班计算器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2em;
+      background-color: #f5f5f5;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 2em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>同事是否上班？</h1>
+  <div class="result" id="status">计算中...</div>
+
+  <script>
+    // 设置一个已知“上班日”，格式为：年, 月-1, 日（注意 JS 中月份从 0 开始）
+    const referenceDate = new Date(2025, 4, 3); // 2025年5月3日为上班日
+    const today = new Date();
+
+    // 清除时间部分，只比较年月日
+    referenceDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    // 计算从参考日到今天的天数差
+    const dayDiff = Math.floor((today - referenceDate) / (1000 * 60 * 60 * 24));
+
+    // 上班或休息：如果是偶数天数差，则今天上班；否则休息
+    const isWorking = dayDiff % 2 === 0;
+
+    document.getElementById("status").textContent = isWorking ? "✅ 今天休息" : "❌ 今天上班";
+  </script>
+
+</body>
+</html>
